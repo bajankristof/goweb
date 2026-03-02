@@ -1,0 +1,106 @@
+version: "2"
+sql:
+- engine: "postgresql"
+  schema: "db/schema/"
+  queries: "db/queries/"
+  gen:
+    go:
+      package: "db"
+      out: "db"
+      sql_package: "pgx/v5"
+      emit_prepared_queries: true
+      emit_db_tags: true
+      emit_json_tags: true
+      json_tags_case_style: "camel"
+      output_batch_file_name: "batch.gen.go"
+      output_db_file_name: "queries.gen.go"
+      output_models_file_name: "models.gen.go"
+      output_copyfrom_file_name: "copyfrom.gen.go"
+      overrides:
+        # Time
+        - db_type: "timestamptz"
+          go_type: "time.Time"
+        - db_type: "timestamptz"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Time"
+        - db_type: "timestamp"
+          go_type: "time.Time"
+        - db_type: "timestamp"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Time"
+        # string
+        - db_type: "pg_catalog.text"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "String"
+        - db_type: "pg_catalog.varchar"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "String"
+        - db_type: "pg_catalog.bpchar"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "String"
+        # bool
+        - db_type: "bool"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Bool"
+        # int
+        - db_type: "int2"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Int16"
+        - db_type: "int4"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Int32"
+        - db_type: "int8"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Int64"
+        # float
+        - db_type: "float4"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Float"
+        - db_type: "float8"
+          nullable: true
+          go_type:
+            import: "github.com/guregu/null/v6"
+            package: "null"
+            type: "Float"
+        # UUID
+        - db_type: "uuid"
+          go_type:
+            import: "github.com/google/uuid"
+            package: "uuid"
+            type: "UUID"
+        - db_type: "uuid"
+          nullable: true
+          go_type:
+            import: "github.com/google/uuid"
+            package: "uuid"
+            type: "NullUUID"

@@ -1,0 +1,9 @@
+version: 2
+
+linters:
+  settings:
+    errcheck:
+      exclude-functions:
+        - (*database/sql.DB).Close
+        - github.com/go-chi/render.Render
+        - (github.com/jackc/pgx/v5.Tx).Rollback

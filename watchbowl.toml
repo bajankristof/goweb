@@ -1,0 +1,25 @@
+[database]
+url = "postgres://postgres:postgres@db:5432/watchbowl"
+
+[server]
+trusted_origins = ["http://localhost", "http://watchbowl.localhost"]
+
+[encryption]
+public_key_pem = """
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1zxvCOepslggQLjsvjrQxxMg8Lqr
+NJSkOa+R8qAzUCPc/j/KThxVyjWA61pjCimeyd1NzNJcxjCU2basWv9z5Q==
+-----END PUBLIC KEY-----
+"""
+private_key_pem = """
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIIrKbiwnrIEYpHskilpKYBD7f+m2sQ5UlOmrucNlLmnfoAoGCCqGSM49
+AwEHoUQDQgAE1zxvCOepslggQLjsvjrQxxMg8LqrNJSkOa+R8qAzUCPc/j/KThxV
+yjWA61pjCimeyd1NzNJcxjCU2basWv9z5Q==
+-----END EC PRIVATE KEY-----
+"""
+
+[[auth.providers]]
+issuer = "http://id.watchbowl.localhost"
+client_id = "watchbowl"
+client_secret = "supersecret"

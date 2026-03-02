@@ -1,0 +1,19 @@
+issuer: http://id.watchbowl.localhost
+storage:
+  type: memory
+web:
+  http: 0.0.0.0:80
+staticClients:
+- id: watchbowl
+  redirectURIs:
+  - "http://localhost/auth/callback"
+  - 'http://watchbowl.localhost/auth/callback'
+  name: 'WatchBowl'
+  secret: supersecret
+enablePasswordDB: true
+staticPasswords:
+- email: "superuser@watchbowl.io"
+  # $(echo password | htpasswd -BinC 10 superuser | cut -d: -f2)
+  hash: "$2y$10$27X2MixqxD/hCEisemZ3deez9moW9HCiq/kvLucbIptyesbtRvKvS"
+  username: "superuser"
+  userID: "12345"

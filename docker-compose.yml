@@ -1,0 +1,59 @@
+volumes:
+  db_data:
+
+services:
+  traefik:
+    image: traefik:v3
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.app.rule: "!Host(`id.watchbowl.localhost`)"
+      traefik.http.services.app.loadbalancer.server.port: "8080"
+    volumes:
+      - ./:/app
+      - /app/tmp
+    depends_on:
+      - db
+
+  dex:
+    image: dexidp/dex
+    command: ["dex", "serve", "/etc/dex/config.yaml"]
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.dex.rule: "Host(`id.watchbowl.localhost`)"
+      traefik.http.services.dex.loadbalancer.server.port: "80"
+    volumes:
+      - ./dex.yaml:/etc/dex/config.yaml:ro
+    networks:
+      default:
+        aliases:
+          - id.watchbowl.localhost
+
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: watchbowl
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql/18/docker
