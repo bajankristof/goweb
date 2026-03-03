@@ -7,37 +7,29 @@ package db
 
 import (
 	"context"
-	"net/netip"
 
 	uuid "github.com/google/uuid"
 )
 
 const createSession = `-- name: CreateSession :one
-INSERT INTO sessions (user_id, refresh_token_hash, ip_address, user_agent)
-VALUES ($1, $2, $3, $4)
-RETURNING session_id, user_id, refresh_token_hash, ip_address, user_agent, created_at, last_used_at, revoked_at
+INSERT INTO sessions (user_id, refresh_token_hash, user_agent)
+VALUES ($1, $2, $3)
+RETURNING session_id, user_id, refresh_token_hash, user_agent, created_at, last_used_at, revoked_at
 `
 
 type CreateSessionParams struct {
-	UserID           uuid.UUID  `db:"user_id" json:"userId"`
-	RefreshTokenHash string     `db:"refresh_token_hash" json:"refreshTokenHash"`
-	IpAddress        netip.Addr `db:"ip_address" json:"ipAddress"`
-	UserAgent        string     `db:"user_agent" json:"userAgent"`
+	UserID           uuid.UUID `db:"user_id" json:"userId"`
+	RefreshTokenHash string    `db:"refresh_token_hash" json:"refreshTokenHash"`
+	UserAgent        string    `db:"user_agent" json:"userAgent"`
 }
 
 func (q *Queries) CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error) {
-	row := q.db.QueryRow(ctx, createSession,
-		arg.UserID,
-		arg.RefreshTokenHash,
-		arg.IpAddress,
-		arg.UserAgent,
-	)
+	row := q.db.QueryRow(ctx, createSession, arg.UserID, arg.RefreshTokenHash, arg.UserAgent)
 	var i Session
 	err := row.Scan(
 		&i.SessionID,
 		&i.UserID,
 		&i.RefreshTokenHash,
-		&i.IpAddress,
 		&i.UserAgent,
 		&i.CreatedAt,
 		&i.LastUsedAt,
@@ -50,7 +42,7 @@ const revokeSession = `-- name: RevokeSession :one
 UPDATE sessions
 SET revoked_at = CURRENT_TIMESTAMP
 WHERE refresh_token_hash = $1 AND revoked_at IS NULL
-RETURNING session_id, user_id, refresh_token_hash, ip_address, user_agent, created_at, last_used_at, revoked_at
+RETURNING session_id, user_id, refresh_token_hash, user_agent, created_at, last_used_at, revoked_at
 `
 
 func (q *Queries) RevokeSession(ctx context.Context, refreshTokenHash string) (Session, error) {
@@ -60,7 +52,6 @@ func (q *Queries) RevokeSession(ctx context.Context, refreshTokenHash string) (S
 		&i.SessionID,
 		&i.UserID,
 		&i.RefreshTokenHash,
-		&i.IpAddress,
 		&i.UserAgent,
 		&i.CreatedAt,
 		&i.LastUsedAt,
@@ -75,7 +66,7 @@ SET refresh_token_hash = $1, last_used_at = CURRENT_TIMESTAMP
 WHERE refresh_token_hash = $2
   AND revoked_at IS NULL
   AND EXISTS (SELECT 1 FROM users WHERE users.user_id = sessions.user_id AND users.deleted_at IS NULL)
-RETURNING session_id, user_id, refresh_token_hash, ip_address, user_agent, created_at, last_used_at, revoked_at
+RETURNING session_id, user_id, refresh_token_hash, user_agent, created_at, last_used_at, revoked_at
 `
 
 type RotateSessionParams struct {
@@ -90,7 +81,6 @@ func (q *Queries) RotateSession(ctx context.Context, arg RotateSessionParams) (S
 		&i.SessionID,
 		&i.UserID,
 		&i.RefreshTokenHash,
-		&i.IpAddress,
 		&i.UserAgent,
 		&i.CreatedAt,
 		&i.LastUsedAt,

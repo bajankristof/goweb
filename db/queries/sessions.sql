@@ -1,6 +1,6 @@
 -- name: CreateSession :one
-INSERT INTO sessions (user_id, refresh_token_hash, ip_address, user_agent)
-VALUES (@user_id, @refresh_token_hash, @ip_address, @user_agent)
+INSERT INTO sessions (user_id, refresh_token_hash, user_agent)
+VALUES (@user_id, @refresh_token_hash, @user_agent)
 RETURNING *;
 
 -- name: RotateSession :one

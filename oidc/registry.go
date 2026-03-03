@@ -72,7 +72,7 @@ func WithProvider(
 	issuer string,
 	clientID string,
 	clientSecret string,
-	opts... ProviderOption,
+	opts ...ProviderOption,
 ) RegistryOption {
 	return func(r *Registry) {
 		r.Register(id, issuer, clientID, clientSecret, opts...)

@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	accessTokenTTL = 15 * time.Minute
+	accessTokenTTL  = 15 * time.Minute
 	refreshTokenTTL = 30 * 24 * time.Hour
 )
 
@@ -234,14 +234,6 @@ func authCallbackHandler(dbq authCallbackQueries, jwts *jwt.Signer, oidr authCod
 			return
 		}
 
-		ipAddr, err := requestutil.NetIPAddr(r)
-		if err != nil {
-			slog.ErrorContext(r.Context(), "failed to get remote IP", "err", err)
-			render.Status(r, http.StatusInternalServerError)
-			render.PlainText(w, r, http.StatusText(http.StatusInternalServerError))
-			return
-		}
-
 		refreshToken := rand.Text()
 		user, err := dbq.CreateWebUser(r.Context(), db.CreateWebUserParams{
 			OpenID:           userInfo.ID,
@@ -249,7 +241,6 @@ func authCallbackHandler(dbq authCallbackQueries, jwts *jwt.Signer, oidr authCod
 			Email:            userInfo.Email,
 			DisplayName:      null.StringFrom(userInfo.DisplayName),
 			RefreshTokenHash: newRefreshTokenHash(refreshToken),
-			IpAddress:        ipAddr,
 			UserAgent:        r.UserAgent(),
 		})
 		if errors.Is(err, db.ErrNoRows) {

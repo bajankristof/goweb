@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"net/netip"
 
 	"github.com/guregu/null/v6"
 )
@@ -13,7 +12,6 @@ type CreateWebUserParams struct {
 	Email            string
 	DisplayName      null.String
 	RefreshTokenHash string
-	IpAddress        netip.Addr
 	UserAgent        string
 }
 
@@ -34,7 +32,6 @@ func (q *Queries) CreateWebUser(ctx context.Context, arg CreateWebUserParams) (U
 		_, err = qtx.CreateSession(ctx, CreateSessionParams{
 			UserID:           user.UserID,
 			RefreshTokenHash: arg.RefreshTokenHash,
-			IpAddress:        arg.IpAddress,
 			UserAgent:        arg.UserAgent,
 		})
 		return err

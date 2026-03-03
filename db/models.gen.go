@@ -5,7 +5,6 @@
 package db
 
 import (
-	"net/netip"
 	"time"
 
 	uuid "github.com/google/uuid"
@@ -13,14 +12,13 @@ import (
 )
 
 type Session struct {
-	SessionID        uuid.UUID  `db:"session_id" json:"sessionId"`
-	UserID           uuid.UUID  `db:"user_id" json:"userId"`
-	RefreshTokenHash string     `db:"refresh_token_hash" json:"refreshTokenHash"`
-	IpAddress        netip.Addr `db:"ip_address" json:"ipAddress"`
-	UserAgent        string     `db:"user_agent" json:"userAgent"`
-	CreatedAt        time.Time  `db:"created_at" json:"createdAt"`
-	LastUsedAt       time.Time  `db:"last_used_at" json:"lastUsedAt"`
-	RevokedAt        null.Time  `db:"revoked_at" json:"revokedAt"`
+	SessionID        uuid.UUID `db:"session_id" json:"sessionId"`
+	UserID           uuid.UUID `db:"user_id" json:"userId"`
+	RefreshTokenHash string    `db:"refresh_token_hash" json:"refreshTokenHash"`
+	UserAgent        string    `db:"user_agent" json:"userAgent"`
+	CreatedAt        time.Time `db:"created_at" json:"createdAt"`
+	LastUsedAt       time.Time `db:"last_used_at" json:"lastUsedAt"`
+	RevokedAt        null.Time `db:"revoked_at" json:"revokedAt"`
 }
 
 type User struct {
