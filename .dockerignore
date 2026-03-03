@@ -22,6 +22,18 @@ go.work.sum
 
 # env files
 .env
+.env.*
+
+# Frontend
+node_modules
+.pnpm-store
+.npm
+*.tsbuildinfo
+*.log
+coverage
+.lcov
+.node_repl_history
+.vite/
 
 # Editor/IDE
 .idea/

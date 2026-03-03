@@ -5,6 +5,7 @@ import (
 	"net/netip"
 
 	"github.com/bajankristof/watchbowl/db"
+	"github.com/bajankristof/watchbowl/frontend"
 	"github.com/bajankristof/watchbowl/http/dto"
 	"github.com/bajankristof/watchbowl/http/middleware"
 	"github.com/bajankristof/watchbowl/jwt"
@@ -44,6 +45,8 @@ func New(
 		g.Use(middleware.Auth(jwts, jsonAuthErrorHandler))
 		g.Mount("/api/v1/users", usersHandler(dbq))
 	})
+
+	r.Mount("/", frontend.FileServer())
 
 	return r
 }

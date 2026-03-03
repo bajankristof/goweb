@@ -59,7 +59,7 @@ func newOIDR(cfg *config.Config) *oidc.Registry {
 			cfg.Auth.Issuer,
 			cfg.Auth.ClientID,
 			cfg.Auth.ClientSecret,
-			cfg.Auth.TTL(),
+			oidc.WithTTL(cfg.Auth.TTL()),
 		)
 	}
 
@@ -69,7 +69,8 @@ func newOIDR(cfg *config.Config) *oidc.Registry {
 			p.Issuer,
 			p.ClientID,
 			p.ClientSecret,
-			p.TTL(),
+			oidc.WithName(p.Name),
+			oidc.WithTTL(p.TTL()),
 		)
 	}
 

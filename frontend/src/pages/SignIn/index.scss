@@ -1,0 +1,18 @@
+main#SignIn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  article {
+    min-width: 300px;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+}

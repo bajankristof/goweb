@@ -15,6 +15,7 @@ import (
 type Provider struct {
 	inner        *oidc.Provider
 	id           string
+	name         string
 	issuer       string
 	clientID     string
 	clientSecret string
@@ -24,21 +25,28 @@ type Provider struct {
 	mu           sync.RWMutex
 }
 
+type ProviderOption func(*Provider)
+
 func NewProvider(
 	id string,
 	issuer string,
 	clientID string,
 	clientSecret string,
-	ttl time.Duration,
+	opts ...ProviderOption,
 ) *Provider {
-	return &Provider{
+	p := &Provider{
 		id:           id,
 		issuer:       issuer,
 		clientID:     clientID,
 		clientSecret: clientSecret,
 		scopes:       []string{oidc.ScopeOpenID, "profile", "email"},
-		ttl:          ttl,
 	}
+
+	for _, opt := range opts {
+		opt(p)
+	}
+
+	return p
 }
 
 func (p *Provider) AuthURL(
@@ -97,6 +105,7 @@ func (p *Provider) Exchange(
 func (p *Provider) MarshalJSON() ([]byte, error) {
 	return json.Marshal(map[string]string{
 		"id":     p.id,
+		"name":   p.name,
 		"issuer": p.issuer,
 	})
 }
@@ -169,6 +178,18 @@ func (p *Provider) verify(ctx context.Context, token *oauth2.Token, nonce string
 	}
 
 	return idToken, nil
+}
+
+func WithTTL(ttl time.Duration) ProviderOption {
+	return func(p *Provider) {
+		p.ttl = ttl
+	}
+}
+
+func WithName(name string) ProviderOption {
+	return func(p *Provider) {
+		p.name = name
+	}
 }
 
 type UserInfo struct {

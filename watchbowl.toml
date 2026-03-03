@@ -19,7 +19,7 @@ yjWA61pjCimeyd1NzNJcxjCU2basWv9z5Q==
 -----END EC PRIVATE KEY-----
 """
 
-[[auth.providers]]
+[auth]
 issuer = "http://id.watchbowl.localhost"
 client_id = "watchbowl"
 client_secret = "supersecret"

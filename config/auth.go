@@ -14,6 +14,7 @@ type AuthConfig struct {
 
 type AuthProviderConfig struct {
 	ID           string `toml:"id"`
+	Name         string `toml:"name"`
 	Issuer       string `toml:"issuer"`
 	ClientID     string `toml:"client_id"`
 	ClientSecret string `toml:"client_secret"`

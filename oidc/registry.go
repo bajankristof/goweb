@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"sync"
-	"time"
 )
 
 type Registry struct {
@@ -24,11 +23,11 @@ func NewRegistry(opts ...RegistryOption) *Registry {
 	return r
 }
 
-func (r *Registry) Register(id, issuer, clientID, clientSecret string, ttl time.Duration) {
+func (r *Registry) Register(id, issuer, clientID, clientSecret string, opts ...ProviderOption) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	r.idps[id] = NewProvider(id, issuer, clientID, clientSecret, ttl)
+	r.idps[id] = NewProvider(id, issuer, clientID, clientSecret, opts...)
 }
 
 func (r *Registry) All() []*Provider {
@@ -73,9 +72,9 @@ func WithProvider(
 	issuer string,
 	clientID string,
 	clientSecret string,
-	ttl time.Duration,
+	opts... ProviderOption,
 ) RegistryOption {
 	return func(r *Registry) {
-		r.Register(id, issuer, clientID, clientSecret, ttl)
+		r.Register(id, issuer, clientID, clientSecret, opts...)
 	}
 }

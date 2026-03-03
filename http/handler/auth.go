@@ -223,6 +223,7 @@ func authCallbackHandler(dbq authCallbackQueries, jwts *jwt.Signer, oidr authCod
 			render.PlainText(w, r, http.StatusText(http.StatusBadGateway))
 			return
 		} else if _, ok := errors.AsType[*oidc.ExchangeError](err); ok {
+			slog.DebugContext(r.Context(), "rejected auth code exchange", "err", err)
 			render.Status(r, http.StatusUnauthorized)
 			render.PlainText(w, r, http.StatusText(http.StatusUnauthorized))
 			return
@@ -230,12 +231,6 @@ func authCallbackHandler(dbq authCallbackQueries, jwts *jwt.Signer, oidr authCod
 			slog.ErrorContext(r.Context(), "failed to exchange auth code", "err", err)
 			render.Status(r, http.StatusInternalServerError)
 			render.PlainText(w, r, http.StatusText(http.StatusInternalServerError))
-			return
-		}
-
-		if !userInfo.EmailVerified {
-			render.Status(r, http.StatusUnauthorized)
-			render.PlainText(w, r, http.StatusText(http.StatusUnauthorized))
 			return
 		}
 

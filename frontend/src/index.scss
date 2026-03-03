@@ -1,0 +1,5 @@
+@use "@picocss/pico/scss/pico" with (
+  $semantic-root-element: "#root",
+  $theme-color: "pumpkin",
+  $css-var-prefix: "--"
+);

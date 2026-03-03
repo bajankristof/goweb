@@ -15,20 +15,35 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  app:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
       target: development
     labels:
       traefik.enable: "true"
-      traefik.http.routers.app.rule: "!Host(`id.watchbowl.localhost`)"
+      traefik.http.routers.app.rule: "!Host(`id.watchbowl.localhost`) && (PathPrefix(`/auth`) || PathPrefix(`/api`))"
       traefik.http.services.app.loadbalancer.server.port: "8080"
     volumes:
       - ./:/app
       - /app/tmp
     depends_on:
       - db
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.frontend.rule: "!Host(`id.watchbowl.localhost`) && !PathPrefix(`/auth`) && !PathPrefix(`/api`)"
+      traefik.http.services.frontend.loadbalancer.server.port: "5173"
+    environment:
+      FORCE_COLOR: "true"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
   dex:
     image: dexidp/dex
