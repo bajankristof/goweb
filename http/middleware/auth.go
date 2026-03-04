@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/bajankristof/watchbowl/http/cookieutil"
-	"github.com/bajankristof/watchbowl/jwt"
+	"github.com/bajankristof/goweb/http/cookieutil"
+	"github.com/bajankristof/goweb/jwt"
 	"github.com/google/uuid"
 )
 

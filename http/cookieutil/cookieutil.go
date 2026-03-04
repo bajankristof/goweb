@@ -3,7 +3,7 @@ package cookieutil
 import (
 	"net/http"
 
-	"github.com/bajankristof/watchbowl/http/requestutil"
+	"github.com/bajankristof/goweb/http/requestutil"
 )
 
 // Get retrieves the value of the cookie with the given name from the request.

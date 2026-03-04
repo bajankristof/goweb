@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/bajankristof/watchbowl/slogctx"
+	"github.com/bajankristof/goweb/slogctx"
 )
 
 func init() {

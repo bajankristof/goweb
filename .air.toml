@@ -6,11 +6,11 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./tmp/watchbowl"
-  cmd = "go build -tags dev -o ./tmp/watchbowl ./cmd/watchbowl"
+  bin = "./tmp/goweb"
+  cmd = "go build -tags dev -o ./tmp/goweb ./cmd/goweb"
   delay = 1000
-  #entrypoint = ["./tmp/watchbowl", "serve", "-c", "watchbowl.toml", "--no-migrate"]
-  entrypoint = ["./tmp/watchbowl", "serve", "-c", "watchbowl.toml"]
+  #entrypoint = ["./tmp/goweb", "serve", "-c", "goweb.toml", "--no-migrate"]
+  entrypoint = ["./tmp/goweb", "serve", "-c", "goweb.toml"]
   exclude_dir = ["frontend", "bin", "tmp", "testdata"]
   exclude_file = []
   exclude_regex = ["_test.go"]

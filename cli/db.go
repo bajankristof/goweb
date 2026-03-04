@@ -3,7 +3,7 @@ package cli
 import (
 	"context"
 
-	"github.com/bajankristof/watchbowl/config"
+	"github.com/bajankristof/goweb/config"
 	"github.com/urfave/cli/v3"
 )
 

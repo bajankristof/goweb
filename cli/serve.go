@@ -4,17 +4,17 @@ import (
 	"context"
 	"time"
 
-	"github.com/bajankristof/watchbowl/config"
-	"github.com/bajankristof/watchbowl/db"
-	"github.com/bajankristof/watchbowl/http/handler"
-	"github.com/bajankristof/watchbowl/http/server"
+	"github.com/bajankristof/goweb/config"
+	"github.com/bajankristof/goweb/db"
+	"github.com/bajankristof/goweb/http/handler"
+	"github.com/bajankristof/goweb/http/server"
 	"github.com/urfave/cli/v3"
 )
 
 func newServeCommand() *cli.Command {
 	return &cli.Command{
 		Name:   "serve",
-		Usage:  "Start the WatchBowl server",
+		Usage:  "Start the GoWeb server",
 		Action: serve,
 		Flags: []cli.Flag{
 			&cli.BoolWithInverseFlag{

@@ -6,7 +6,7 @@ import (
 	"crypto/rand"
 	"testing"
 
-	"github.com/bajankristof/watchbowl/jwt"
+	"github.com/bajankristof/goweb/jwt"
 )
 
 // NewSigner returns a *jwt.Signer with a freshly generated P-256 ECDSA key pair.

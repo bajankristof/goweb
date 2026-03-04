@@ -10,12 +10,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/bajankristof/watchbowl/db"
-	"github.com/bajankristof/watchbowl/http/cookieutil"
-	"github.com/bajankristof/watchbowl/http/dto"
-	"github.com/bajankristof/watchbowl/http/requestutil"
-	"github.com/bajankristof/watchbowl/jwt"
-	"github.com/bajankristof/watchbowl/oidc"
+	"github.com/bajankristof/goweb/db"
+	"github.com/bajankristof/goweb/http/cookieutil"
+	"github.com/bajankristof/goweb/http/dto"
+	"github.com/bajankristof/goweb/http/requestutil"
+	"github.com/bajankristof/goweb/jwt"
+	"github.com/bajankristof/goweb/oidc"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/google/uuid"
@@ -129,7 +129,7 @@ func authSignInHandler(jwts *jwt.Signer, oidr authURLGenerator) http.HandlerFunc
 
 		state := authState{
 			RegisteredClaims: jwt.RegisteredClaims{
-				Issuer:    "watchbowl",
+				Issuer:    "goweb",
 				Subject:   rand.Text(),
 				ExpiresAt: jwt.After(5 * time.Minute),
 				IssuedAt:  jwt.Now(),

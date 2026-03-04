@@ -1,4 +1,4 @@
-module github.com/bajankristof/watchbowl
+module github.com/bajankristof/goweb
 
 go 1.26.0
 

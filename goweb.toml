@@ -1,8 +1,8 @@
 [database]
-url = "postgres://postgres:postgres@db:5432/watchbowl"
+url = "postgres://postgres:postgres@db:5432/goweb"
 
 [server]
-trusted_origins = ["http://localhost", "http://watchbowl.localhost"]
+trusted_origins = ["http://localhost", "http://goweb.localhost"]
 
 [encryption]
 public_key_pem = """
@@ -20,6 +20,6 @@ yjWA61pjCimeyd1NzNJcxjCU2basWv9z5Q==
 """
 
 [auth]
-issuer = "http://id.watchbowl.localhost"
-client_id = "watchbowl"
+issuer = "http://id.goweb.localhost"
+client_id = "goweb"
 client_secret = "supersecret"

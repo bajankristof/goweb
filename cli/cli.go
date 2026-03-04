@@ -6,17 +6,17 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/bajankristof/watchbowl/config"
-	"github.com/bajankristof/watchbowl/db"
-	"github.com/bajankristof/watchbowl/jwt"
-	"github.com/bajankristof/watchbowl/oidc"
+	"github.com/bajankristof/goweb/config"
+	"github.com/bajankristof/goweb/db"
+	"github.com/bajankristof/goweb/jwt"
+	"github.com/bajankristof/goweb/oidc"
 	"github.com/urfave/cli/v3"
 )
 
 func New() *cli.Command {
 	return &cli.Command{
-		Name:           "watchbowl",
-		Usage:          "WatchBowl",
+		Name:           "goweb",
+		Usage:          "GoWeb",
 		ErrWriter:      io.Discard,
 		ExitErrHandler: func(context.Context, *cli.Command, error) {},
 		Commands: []*cli.Command{
@@ -28,7 +28,7 @@ func New() *cli.Command {
 				Name:    "config",
 				Aliases: []string{"c"},
 				Usage:   "Path to the configuration file",
-				Value:   filepath.Join("/etc", "watchbowl", "config.toml"),
+				Value:   filepath.Join("/etc", "goweb", "config.toml"),
 			},
 		},
 	}

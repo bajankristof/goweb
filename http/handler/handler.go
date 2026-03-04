@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"net/netip"
 
-	"github.com/bajankristof/watchbowl/db"
-	"github.com/bajankristof/watchbowl/frontend"
-	"github.com/bajankristof/watchbowl/http/dto"
-	"github.com/bajankristof/watchbowl/http/middleware"
-	"github.com/bajankristof/watchbowl/jwt"
-	"github.com/bajankristof/watchbowl/oidc"
+	"github.com/bajankristof/goweb/db"
+	"github.com/bajankristof/goweb/frontend"
+	"github.com/bajankristof/goweb/http/dto"
+	"github.com/bajankristof/goweb/http/middleware"
+	"github.com/bajankristof/goweb/jwt"
+	"github.com/bajankristof/goweb/oidc"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 )

@@ -1,18 +1,18 @@
-issuer: http://id.watchbowl.localhost
+issuer: http://id.goweb.localhost
 storage:
   type: memory
 web:
   http: 0.0.0.0:80
 staticClients:
-- id: watchbowl
+- id: goweb
   redirectURIs:
   - "http://localhost/auth/callback"
-  - 'http://watchbowl.localhost/auth/callback'
-  name: 'WatchBowl'
+  - 'http://goweb.localhost/auth/callback'
+  name: 'GoWeb'
   secret: supersecret
 enablePasswordDB: true
 staticPasswords:
-- email: "superuser@watchbowl.io"
+- email: "superuser@goweb.io"
   # $(echo password | htpasswd -BinC 10 superuser | cut -d: -f2)
   hash: "$2y$10$27X2MixqxD/hCEisemZ3deez9moW9HCiq/kvLucbIptyesbtRvKvS"
   username: "superuser"

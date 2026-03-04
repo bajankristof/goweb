@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bajankristof/watchbowl/jwt"
+	"github.com/bajankristof/goweb/jwt"
 )
 
 type EncryptionConfig struct {

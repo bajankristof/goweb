@@ -1,5 +1,5 @@
 build:
-	@go build -o ./bin/watchbowl ./cmd/watchbowl
+	@go build -o ./bin/goweb ./cmd/goweb
 
 fmt:
 	@go fmt ./...

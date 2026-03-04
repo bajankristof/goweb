@@ -24,12 +24,12 @@ CMD ["air"]
 
 FROM base AS build
 
-RUN go build -o bin/watchbowl cmd/watchbowl
+RUN go build -o bin/goweb cmd/goweb
 
 
 FROM debian:stable-slim
 
 WORKDIR /app
-COPY --from=build /app/bin/watchbowl /usr/local/bin/watchbowl
+COPY --from=build /app/bin/goweb /usr/local/bin/goweb
 
-CMD ["watchbowl"]
+CMD ["goweb"]

@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/bajankristof/watchbowl/db"
-	"github.com/bajankristof/watchbowl/http/dto"
-	"github.com/bajankristof/watchbowl/http/middleware"
+	"github.com/bajankristof/goweb/db"
+	"github.com/bajankristof/goweb/http/dto"
+	"github.com/bajankristof/goweb/http/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/google/uuid"

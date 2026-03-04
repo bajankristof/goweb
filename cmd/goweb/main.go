@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/bajankristof/watchbowl/cli"
+	"github.com/bajankristof/goweb/cli"
 )
 
 func main() {

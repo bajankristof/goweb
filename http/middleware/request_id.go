@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/bajankristof/watchbowl/slogctx"
+	"github.com/bajankristof/goweb/slogctx"
 	"github.com/go-chi/chi/v5/middleware"
 )
 

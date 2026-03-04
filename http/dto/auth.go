@@ -3,7 +3,7 @@ package dto
 import (
 	"net/http"
 
-	"github.com/bajankristof/watchbowl/oidc"
+	"github.com/bajankristof/goweb/oidc"
 )
 
 type AuthWellKnownResponse struct {
