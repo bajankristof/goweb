@@ -8,7 +8,9 @@ export default function Header() {
     <header id="Header" className="container">
       <nav>
         <ul>
-          <li><NavLink to="/">Home</NavLink></li>
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
         </ul>
         <ul>
           <li>
@@ -17,7 +19,9 @@ export default function Header() {
                 <FaUser />
               </summary>
               <ul dir="rtl">
-                <li><a href="/auth/signout">Sign Out</a></li>
+                <li>
+                  <a href="/auth/signout">Sign Out</a>
+                </li>
               </ul>
             </details>
           </li>

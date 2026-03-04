@@ -1,25 +1,33 @@
+import { QueryClient } from "@tanstack/react-query";
 import { Outlet, redirect, useLoaderData } from "react-router";
 
 import type { User } from "../../api";
-import useAuthInfo from "../../hooks/useAuthInfo";
+import { authWellKnownQuery, currentUserQuery } from "../../api/queries";
 import Header from "./components/Header";
 
 type LoaderData = {
   user?: User;
 };
 
-export async function defaultLayoutLoader(): Promise<LoaderData> {
-  const { wellKnown, user } = await useAuthInfo();
-  const { providers } = wellKnown;
+export function defaultLayoutLoader(queryClient: QueryClient) {
+  return async (): Promise<LoaderData> => {
+    const [wellKnown, user] = await Promise.all([
+      queryClient.fetchQuery(authWellKnownQuery),
+      queryClient.fetchQuery(currentUserQuery),
+    ]);
 
-  if (user) {
-    return { user };
-  } else if (providers.length > 1) {
-    throw redirect("/signin");
-  }
+    if (user) {
+      return { user };
+    }
 
-  window.location.href = "/auth/signin";
-  return {};
+    const { providers } = wellKnown;
+    if (providers.length > 1) {
+      throw redirect("/signin");
+    }
+
+    window.location.href = providers.length === 1 ? "/auth/signin" : "/auth/authless";
+    return {};
+  };
 }
 
 export default function DefaultLayout() {

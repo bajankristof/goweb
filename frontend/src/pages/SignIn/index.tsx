@@ -1,15 +1,8 @@
-import {
-  FaAmazon,
-  FaApple,
-  FaFacebook,
-  FaFingerprint,
-  FaGoogle,
-  FaGithub,
-} from "react-icons/fa6";
+import type { QueryClient } from "@tanstack/react-query";
+import { FaAmazon, FaApple, FaFacebook, FaFingerprint, FaGoogle, FaGithub } from "react-icons/fa6";
 import { redirect, useLoaderData } from "react-router";
 
-import type { AuthWellKnown } from "../../api";
-import useAuthInfo from "../../hooks/useAuthInfo";
+import { type AuthWellKnown, authWellKnownQuery, currentUserQuery } from "../../api";
 
 import "./index.scss";
 
@@ -17,18 +10,25 @@ type LoaderData = {
   providers?: AuthWellKnown["providers"];
 };
 
-export async function signInLoader(): Promise<LoaderData> {
-  const { wellKnown, user } = await useAuthInfo();
-  const { providers } = wellKnown;
+export function signInLoader(queryClient: QueryClient) {
+  return async (): Promise<LoaderData> => {
+    const [wellKnown, user] = await Promise.all([
+      queryClient.fetchQuery(authWellKnownQuery),
+      queryClient.fetchQuery(currentUserQuery),
+    ]);
 
-  if (user) {
-    throw redirect("/");
-  } else if (providers.length > 1) {
-    return { providers };
-  }
+    if (user) {
+      throw redirect("/");
+    }
 
-  window.location.href = "/auth/signin";
-  return {};
+    const { providers } = wellKnown;
+    if (providers.length > 1) {
+      return { providers };
+    }
+
+    window.location.href = providers.length === 1 ? "/auth/signin" : "/auth/authless";
+    return {};
+  };
 }
 
 export default function SignIn() {

@@ -25,7 +25,7 @@ import (
 
 const (
 	accessTokenTTL  = 15 * time.Minute
-	refreshTokenTTL = 30 * 24 * time.Hour
+	refreshTokenTTL = 7 * 24 * time.Hour
 )
 
 type authState struct {
@@ -43,6 +43,10 @@ type authCodeExchanger interface {
 	Exchange(ctx context.Context, idp, callbackURL, code, nonce, verifier string) (*oidc.UserInfo, error)
 }
 
+type authLessQueries interface {
+	CreateWebUser(ctx context.Context, arg db.CreateWebUserParams) (db.User, error)
+}
+
 type authSignOutQueries interface {
 	RevokeSession(ctx context.Context, refreshTokenHash string) (db.Session, error)
 }
@@ -58,6 +62,7 @@ type authRefreshQueries interface {
 func authHandler(dbq *db.Queries, jwts *jwt.Signer, oidr *oidc.Registry) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/well-known", authWellKnownHandler(oidr))
+	r.Get("/authless", authLessHandler(dbq, jwts, oidr))
 	r.Get("/signin", authSignInHandler(jwts, oidr))
 	r.Get("/signin/{idp}", authSignInHandler(jwts, oidr))
 	r.Get("/signout", authSignOutHandler(dbq))
@@ -71,6 +76,44 @@ func authWellKnownHandler(oidr *oidc.Registry) http.HandlerFunc {
 		render.Render(w, r, &dto.AuthWellKnownResponse{
 			Providers: oidr.All(),
 		})
+	}
+}
+
+func authLessHandler(dbq authLessQueries, jwts *jwt.Signer, oidr *oidc.Registry) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if len(oidr.All()) > 0 {
+			render.Status(r, http.StatusForbidden)
+			render.PlainText(w, r, http.StatusText(http.StatusForbidden))
+			return
+		}
+
+		refreshToken := rand.Text()
+		user, err := dbq.CreateWebUser(r.Context(), db.CreateWebUserParams{
+			OpenID: "",
+			Provider: "",
+			Email: "",
+			DisplayName: null.StringFrom("Authless User"),
+			RefreshTokenHash: newRefreshTokenHash(refreshToken),
+			UserAgent: r.UserAgent(),
+		})
+		if err != nil {
+			slog.ErrorContext(r.Context(), "failed to create authless user", "err", err)
+			render.Status(r, http.StatusInternalServerError)
+			render.PlainText(w, r, http.StatusText(http.StatusInternalServerError))
+			return
+		}
+
+		accessToken, err := newAccessToken(jwts, user.UserID)
+		if err != nil {
+			slog.ErrorContext(r.Context(), "failed to generate access token for authless user", "user_id", user.UserID, "err", err)
+			render.Status(r, http.StatusInternalServerError)
+			render.PlainText(w, r, http.StatusText(http.StatusInternalServerError))
+			return
+		}
+
+		setAccessToken(w, r, accessToken)
+		setRefreshToken(w, r, refreshToken, "/")
+		http.Redirect(w, r, "/", http.StatusFound)
 	}
 }
 
@@ -264,7 +307,6 @@ func authCallbackHandler(dbq authCallbackQueries, jwts *jwt.Signer, oidr authCod
 
 		setAccessToken(w, r, accessToken)
 		setRefreshToken(w, r, refreshToken, baseURL.Path)
-
 		http.Redirect(w, r, "/", http.StatusFound)
 	}
 }
@@ -320,8 +362,7 @@ func authRefreshHandler(dbq authRefreshQueries, jwts *jwt.Signer) http.HandlerFu
 
 		setAccessToken(w, r, accessToken)
 		setRefreshToken(w, r, newRefreshToken, baseURL.Path)
-
-		http.Redirect(w, r, "/", http.StatusFound)
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
 
