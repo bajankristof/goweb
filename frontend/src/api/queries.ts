@@ -11,6 +11,6 @@ export const authWellKnownQuery = queryOptions({
 
 export const currentUserQuery = queryOptions({
   queryKey: ["auth", "user"],
-  queryFn: () => get<User>("/api/v1/users/u").catch(() => undefined),
+  queryFn: () => get<User>("/api/v1/users/u").catch(() => null),
   staleTime: 5 * 60 * 1000,
 });

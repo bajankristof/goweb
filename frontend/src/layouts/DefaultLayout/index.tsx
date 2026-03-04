@@ -6,7 +6,7 @@ import { authWellKnownQuery, currentUserQuery } from "../../api/queries";
 import Header from "./components/Header";
 
 type LoaderData = {
-  user?: User;
+  user?: User | null;
 };
 
 export function defaultLayoutLoader(queryClient: QueryClient) {
