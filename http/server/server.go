@@ -15,18 +15,23 @@ type Server struct {
 type ServerOption func(*Server)
 
 func New(handler http.Handler, opts ...ServerOption) *Server {
-	srv := &Server{
+	s := &Server{
 		Server: &http.Server{
-			Handler: handler,
+			Handler:           handler,
+			Addr:              ":8080",
+			ReadHeaderTimeout: 5 * time.Second,
+			ReadTimeout:       15 * time.Second,
+			WriteTimeout:      15 * time.Second,
+			IdleTimeout:       60 * time.Second,
 		},
 		ShutdownTimeout: 15 * time.Second,
 	}
 
 	for _, opt := range opts {
-		opt(srv)
+		opt(s)
 	}
 
-	return srv
+	return s
 }
 
 func (s *Server) ListenAndServe(ctx context.Context) error {
@@ -39,7 +44,6 @@ func (s *Server) ListenAndServe(ctx context.Context) error {
 	case <-ctx.Done():
 		return s.Shutdown(context.Background())
 	case err := <-errs:
-		slog.ErrorContext(ctx, "server error", "addr", s.Addr, "err", err)
 		return err
 	}
 }

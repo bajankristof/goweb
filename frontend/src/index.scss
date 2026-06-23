@@ -3,3 +3,9 @@
   $theme-color: "pumpkin",
   $css-var-prefix: "--"
 );
+
+#root {
+  position: relative;
+  min-width: 100vw;
+  min-height: 100vh;
+}

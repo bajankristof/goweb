@@ -6,9 +6,8 @@ web:
 staticClients:
 - id: goweb
   redirectURIs:
-  - "http://localhost/auth/callback"
-  - 'http://goweb.localhost/auth/callback'
-  name: 'GoWeb'
+  - "http://goweb.localhost/auth/callback"
+  name: "GoWeb"
   secret: supersecret
 enablePasswordDB: true
 staticPasswords:

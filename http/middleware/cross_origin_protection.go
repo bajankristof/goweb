@@ -11,7 +11,7 @@ func CrossOriginProtection(origins []string) func(next http.Handler) http.Handle
 	for _, o := range origins {
 		err := cop.AddTrustedOrigin(o)
 		if err != nil {
-			slog.Warn("failed to add trusted origin to cross-origin protection", "origin", o, "err", err)
+			slog.Warn("failed to add trusted origin, skipping", "origin", o, "err", err)
 		}
 	}
 

@@ -9,7 +9,6 @@ import (
 	"github.com/bajankristof/goweb/jwt"
 )
 
-// NewSigner returns a *jwt.Signer with a freshly generated P-256 ECDSA key pair.
 func NewSigner(t testing.TB) *jwt.Signer {
 	t.Helper()
 
@@ -18,7 +17,7 @@ func NewSigner(t testing.TB) *jwt.Signer {
 		t.Fatalf("jwttest: generate ECDSA key: %v", err)
 	}
 
-	signer, err := jwt.NewSigner(&key.PublicKey, key)
+	signer, err := jwt.NewSigner(key)
 	if err != nil {
 		t.Fatalf("jwttest: create signer: %v", err)
 	}

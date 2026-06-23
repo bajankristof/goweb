@@ -11,26 +11,27 @@ import (
 )
 
 func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
-	defer stop()
+	var err error
+
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer cancel()
 
 	errs := make(chan error, 1)
 	go func() {
 		errs <- cli.New().Run(ctx, os.Args)
 	}()
 
-	var err error
 	select {
 	case <-ctx.Done():
-		stop()
 		slog.DebugContext(ctx, "interrupted, bye now...")
+		cancel()
 		<-errs
 		err = ctx.Err()
 	case err = <-errs:
 	}
 
 	if err != nil && !errors.Is(err, context.Canceled) {
-		slog.ErrorContext(ctx, err.Error())
+		slog.ErrorContext(ctx, "fatal error", "err", err)
 		os.Exit(1)
 	}
 }

@@ -1,38 +1,33 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "build:watch": "vite build --watch",
+    "lint": "biome lint",
+    "format": "biome format",
     "preview": "vite preview"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",
-    "@tanstack/react-query": "^5.90.21",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-icons": "^5.5.0",
-    "react-router": "^7.13.1"
+    "@tanstack/react-query": "^5.101.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-icons": "^5.6.0",
+    "react-router": "^8.0.1"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
+    "@biomejs/biome": "^2.5.0",
+    "@types/node": "^26.0.0",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "globals": "^16.5.0",
-    "oxfmt": "^0.36.0",
-    "oxlint": "^1.51.0",
-    "postcss": "^8.5.6",
-    "sass-embedded": "^1.97.3",
-    "typescript": "~5.9.3",
-    "vite": "^8.0.0-beta.13"
-  },
-  "pnpm": {
-    "overrides": {
-      "vite": "^8.0.0-beta.13"
-    }
+    "@vitejs/plugin-react": "^6.0.2",
+    "globals": "^17.6.0",
+    "sass-embedded": "^1.100.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.16"
   }
 }

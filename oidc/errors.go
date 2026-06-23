@@ -1,33 +1,12 @@
 package oidc
 
-type RegistryError struct {
-	Message string
-}
+import "errors"
 
-func (e *RegistryError) Error() string {
-	return e.Message
-}
-
-type SyncError struct {
-	Err error
-}
-
-func (e *SyncError) Error() string {
-	return e.Err.Error()
-}
-
-func (e *SyncError) Unwrap() error {
-	return e.Err
-}
-
-type ExchangeError struct {
-	Err error
-}
-
-func (e *ExchangeError) Error() string {
-	return e.Err.Error()
-}
-
-func (e *ExchangeError) Unwrap() error {
-	return e.Err
-}
+var (
+	ErrInvalidProvider = errors.New("oidc: invalid provider")
+	ErrDiscovery       = errors.New("oidc: discovery error")
+	ErrExchange        = errors.New("oidc: exchange error")
+	ErrInvalidToken    = errors.New("oidc: invalid token")
+	ErrNonceMismatch   = errors.New("oidc: nonce mismatch")
+	ErrInvalidClaims   = errors.New("oidc: invalid claims")
+)

@@ -1,0 +1,26 @@
+[auth]
+access_token_ttl = "15m"
+refresh_token_ttl = "7d"
+
+[database]
+url = "sqlite://./goweb.db"
+migration_attempts = 3
+migration_retry_delay = "5s"
+
+[oidc.google]
+client_id = "YOUR_GOOGLE_CLIENT_ID"
+client_secret = "YOUR_GOOGLE_CLIENT_SECRET"
+redirect_url = "https://example.com/auth/callback"
+
+[jwt]
+signing_key = "/path/to/key.pem"
+
+[server]
+host = ""
+port = 8080
+read_timeout = "15s"
+write_timeout = "15s"
+idle_timeout = "60s"
+shutdown_timeout = "15s"
+allowed_origins = ["https://example.com"]
+trusted_proxies = ["172.20.0/16"]

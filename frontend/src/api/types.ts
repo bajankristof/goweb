@@ -1,17 +1,14 @@
-export type AuthWellKnown = {
-  providers: AuthProvider[];
-};
-
-export type AuthProvider = {
-  id: string;
-  issuer: string;
-  icon?: string;
-  name?: string;
+export type WellKnownInfo = {
+  version: string;
+  auth: {
+    providers: string[];
+  };
 };
 
 export type User = {
-  userId: string;
-  openId: string;
+  id: string;
   email: string;
-  displayName: string;
+  displayName: string | null;
+  createdAt: string;
+  updatedAt: string;
 };

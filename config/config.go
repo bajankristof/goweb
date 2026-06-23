@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -12,18 +13,26 @@ import (
 )
 
 type Config struct {
-	Database   DatabaseConfig   `toml:"database"`
-	Server     ServerConfig     `toml:"server"`
-	Encryption EncryptionConfig `toml:"encryption"`
-	Auth       AuthConfig       `toml:"auth"`
+	Auth     AuthConfig            `toml:"auth"`
+	Database DatabaseConfig        `toml:"database"`
+	OIDC     map[string]OIDCConfig `toml:"oidc" env:"-"`
+	JWT      JWTConfig             `toml:"jwt"`
+	Server   ServerConfig          `toml:"server"`
 }
 
-func New() *Config {
+func Default() *Config {
 	return &Config{
+		Auth: AuthConfig{
+			AccessTokenTTL:  Duration(15 * time.Minute),
+			RefreshTokenTTL: Duration(7 * 24 * time.Hour),
+		},
 		Database: DatabaseConfig{
+			AutoMigrate:         true,
 			MigrationAttempts:   3,
 			MigrationRetryDelay: Duration(5 * time.Second),
 		},
+		OIDC: make(map[string]OIDCConfig),
+		JWT:  JWTConfig{},
 		Server: ServerConfig{
 			Host:            "",
 			Port:            8080,
@@ -37,23 +46,28 @@ func New() *Config {
 	}
 }
 
-func Load(path string) (*Config, error) {
-	c := New()
-
-	_, err := toml.DecodeFile(path, c)
-	if err != nil && !errors.Is(err, os.ErrNotExist) {
-		return nil, fmt.Errorf("load %s: %w", path, err)
+func (c *Config) Load(ctx context.Context, paths ...string) error {
+	for _, path := range paths {
+		_, err := toml.DecodeFile(path, c)
+		if err != nil && !errors.Is(err, os.ErrNotExist) {
+			return fmt.Errorf("config: load error: %w", err)
+		}
 	}
 
-	err = env.Parse(c)
+	err := env.Parse(c)
 	if err != nil {
-		return nil, fmt.Errorf("load env: %w", err)
+		return fmt.Errorf("config: env parse error: %w", err)
 	}
 
-	err = c.Encryption.LoadKeys()
+	idpc := OIDCConfig{}
+	err = env.Parse(&idpc)
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("config: env parse error: %w", err)
 	}
 
-	return c, nil
+	if idpc.IssuerURL.String() != "" {
+		c.OIDC["default"] = idpc
+	}
+
+	return nil
 }

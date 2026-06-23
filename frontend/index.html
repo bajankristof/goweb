@@ -2,15 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'nonce-NONCEMUSTBEREPLACED';
+        style-src 'self' 'nonce-NONCEMUSTBEREPLACED';
+        img-src 'self' data:;
+        connect-src 'self';
+        manifest-src 'self';
+        worker-src 'self';
+        frame-src 'none';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+      "
+    />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GoWeb</title>
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="application-name" content="Goweb" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Goweb" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <title>Goweb</title>
   </head>
   <body>
-    <noscript
-      >GoWeb requires JavaScript to run. Please enable JavaScript in your browser
-      settings.</noscript
-    >
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

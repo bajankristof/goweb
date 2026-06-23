@@ -1,0 +1,18 @@
+[database]
+# url = "sqlite://./goweb.db"
+url = "postgresql://postgres:postgres@db:5432/goweb?sslmode=disable"
+
+[jwt]
+# Use a path to a PEM-encoded private key file, or the PEM-encoded key itself as a string.
+# In production, you should use a secure method to store and access your private key, such as environment variables or a secrets manager.
+# $ openssl ecparam -name prime256v1 -genkey -noout -out key.pem
+signing_key = """-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIM0tNBFXeFw5RdJB1E26phazmx1cLlDdEVCUhPfdC3UVoAoGCCqGSM49
+AwEHoUQDQgAEevfJ4k2vZKzeEDwrOwBN3OuTQMqjBj+yrGyB172/bw7N+rg0UysK
+zTkktVnAI3w6ZpIhPSyJWiMGvNYxfxnT/w==
+-----END EC PRIVATE KEY-----"""
+
+[oidc.dex]
+issuer_url = "http://id.goweb.localhost"
+client_id = "goweb"
+client_secret = "supersecret"

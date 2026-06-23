@@ -6,11 +6,11 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/bajankristof/goweb/slogctx"
+	"github.com/bajankristof/goweb/slogcontext"
 )
 
 func init() {
-	handler := slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelInfo})
-	logger := slog.New(slogctx.NewHandler(handler))
+	handler := slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelInfo})
+	logger := slog.New(slogcontext.NewHandler(handler))
 	slog.SetDefault(logger)
 }

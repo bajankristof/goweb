@@ -2,19 +2,17 @@ package middleware
 
 import (
 	"context"
-	"log/slog"
 	"net/http"
 
-	"github.com/bajankristof/goweb/slogctx"
+	"github.com/bajankristof/goweb/slogcontext"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
 func RequestID(next http.Handler) http.Handler {
 	return middleware.RequestID(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		if id := GetRequestID(ctx); id != "" {
-			ctx = slogctx.WithAttrs(ctx, slog.String("context.trace_id", id))
-			r = r.WithContext(ctx)
+		if i := GetRequestID(ctx); i != "" {
+			r = slogcontext.Inject(r, "http.request.id", i)
 		}
 		next.ServeHTTP(w, r)
 	}))

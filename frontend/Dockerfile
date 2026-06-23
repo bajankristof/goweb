@@ -1,11 +1,10 @@
-FROM node:25-slim
+FROM node:24-slim
+
+RUN npm install -g pnpm@11.5.2
 
 WORKDIR /app
-
-RUN npm install -g pnpm
 COPY package.json pnpm-*.yaml ./
 RUN pnpm install --frozen-lockfile
-
 COPY . .
 
-CMD ["pnpm", "run", "dev"]
+CMD ["pnpm", "dev"]
