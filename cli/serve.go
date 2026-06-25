@@ -70,7 +70,12 @@ func serve(ctx context.Context, cmd *cli.Command) error {
 			r.Mount("/users", userhttp.NewHandler(app.user))
 		})
 	})
-	mux.Mount("/", frontend.NewHandler())
+
+	fe, err := frontend.NewHandler()
+	if err != nil {
+		return err
+	}
+	mux.Mount("/", fe)
 
 	srv := server.New(
 		mux,
