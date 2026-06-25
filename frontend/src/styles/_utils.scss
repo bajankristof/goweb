@@ -1,0 +1,25 @@
+@mixin light {
+  @media (prefers-color-scheme: light) {
+    &:not([data-theme="dark"]):not([data-theme="dark"] *) {
+      @content;
+    }
+  }
+
+  [data-theme="light"] &,
+  &[data-theme="light"] {
+    @content;
+  }
+}
+
+@mixin dark {
+  @media (prefers-color-scheme: dark) {
+    &:not([data-theme="light"]):not([data-theme="light"] *) {
+      @content;
+    }
+  }
+
+  [data-theme="dark"] &,
+  &[data-theme="dark"] {
+    @content;
+  }
+}

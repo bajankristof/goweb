@@ -1,11 +1,8 @@
 import type { QueryClient } from "@tanstack/react-query";
 
-import { rejectSignedIn } from "../../hooks/guards";
-import useWellKnownInfo, {
-  wellKnownInfoQuery,
-} from "../../hooks/useWellKnownInfo";
+import { rejectSignedIn } from "#hooks/guards";
+import useWellKnownInfo, { wellKnownInfoQuery } from "#hooks/useWellKnownInfo";
 import SignInButton from "./components/SignInButton";
-
 import classes from "./index.module.scss";
 
 export function signInLoader(queryClient: QueryClient) {

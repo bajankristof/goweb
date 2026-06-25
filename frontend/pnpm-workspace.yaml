@@ -2,4 +2,4 @@ frozenLockfile: true
 allowBuilds:
   "@parcel/watcher": true
 minimumReleaseAge: 2880
-confirmModulesPrune: false
+confirmModulesPurge: false

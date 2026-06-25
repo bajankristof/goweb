@@ -9,8 +9,11 @@ import {
   SiKeycloak,
   SiOkta,
 } from "react-icons/si";
-import IconGoogleG from "./IconGoogleG";
-import IconPocketId from "./IconPocketId";
+
+import IconGoogle from "../IconGoogle";
+import IconPocketId from "../IconPocketId";
+import classes from "./index.module.scss";
+import IconDex from "../IconDex";
 
 export type SignInButtonProps = {
   idp: string;
@@ -26,9 +29,10 @@ const CONFIG: Record<string, Config> = {
   apple: { name: "Apple", Icon: SiApple },
   authelia: { name: "Authelia", Icon: SiAuthelia },
   authentik: { name: "Authentik", Icon: SiAuthentik },
+  dex: { name: "dex", Icon: IconDex },
   facebook: { name: "Facebook", Icon: SiFacebook },
   github: { name: "GitHub", Icon: SiGithub },
-  google: { name: "Google", Icon: IconGoogleG },
+  google: { name: "Google", Icon: IconGoogle },
   keycloak: { name: "Keycloak", Icon: SiKeycloak },
   okta: { name: "Okta", Icon: SiOkta },
   pocketid: { name: "Pocket ID", Icon: IconPocketId },
@@ -38,12 +42,11 @@ const FALLBACK: Config = { name: "", Icon: FaFingerprint };
 
 export default function SignInButton({ idp, onSignIn }: SignInButtonProps) {
   const { name, Icon } = CONFIG[idp] ?? { ...FALLBACK, name: idp };
-  const isUnknown = !CONFIG[idp];
 
   return (
     <button
       type="button"
-      className={`${idp} ${isUnknown ? "unknown" : ""}`}
+      className={`${classes.SignInButton} ${classes[idp] ?? classes.any}`}
       onClick={onSignIn}
     >
       <Icon aria-hidden="true" />

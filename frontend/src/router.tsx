@@ -1,12 +1,12 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createBrowserRouter } from "react-router";
 
-import ErrorBoundary from "./components/ErrorBoundary";
-import InsetLoader from "./components/InsetLoader";
+import ErrorBoundary from "#components/ErrorBoundary";
+import InsetLoader from "#components/InsetLoader";
+import Home from "#pages/Home";
+import NotFound from "#pages/NotFound";
+import SignIn, { signInLoader } from "#pages/SignIn";
 import DefaultLayout, { defaultLayoutLoader } from "./layouts/DefaultLayout";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import SignIn, { signInLoader } from "./pages/SignIn";
 
 export function createRouter(queryClient: QueryClient) {
   return createBrowserRouter([

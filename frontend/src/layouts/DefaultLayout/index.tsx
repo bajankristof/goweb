@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 
-import Header from "../../components/Header";
-import { requireSignIn } from "../../hooks/guards";
+import Header from "#components/Header";
+import { requireSignIn } from "#hooks/guards";
 
 export const defaultLayoutLoader = requireSignIn;
 

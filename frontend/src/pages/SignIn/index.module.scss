@@ -1,3 +1,5 @@
+@use "utils" as *;
+
 .SignIn {
   display: flex;
   align-items: center;
@@ -5,93 +7,29 @@
   height: 100vh;
 
   article {
-    min-width: 300px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: calc(var(--spacing) / 2);
 
     h1 {
-      margin-bottom: 0;
+      margin-bottom: calc(var(--spacing) / 2);
     }
   }
 
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .25em;
+  --primary-background: var(--primary);
+  --primary-border: var(--primary);
+  --primary-hover-border: var(--primary);
 
-    font-size: 16px;
+  @include light {
+    --primary: #000;
+    --primary-hover-background: #000;
+    --primary-inverse: #fff;
+  }
 
-    width: 100%;
-    height: 2rem;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 1rem;
-    background: #000;
-
-    @media (prefers-color-scheme: dark) {
-      background: #fff;
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    &.unknown {
-      svg {
-        fill: var(--primary) !important;
-      }
-    }
-
-    &.apple {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
-      svg {
-        margin-bottom: 4px;
-      }
-    }
-
-    &.authelia {
-      svg {
-        fill: #3f51b4 !important;
-      }
-    }
-
-    &.authentik {
-      svg {
-        fill: #fd4b2d !important;
-      }
-    }
-
-    &.facebook {
-      svg {
-        fill: #1877f2 !important;
-      }
-    }
-
-    &.google {
-      font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    }
-
-    &.okta {
-      svg {
-        fill: #007bbf !important;
-      }
-    }
-
-    &.pocketid {
-      svg {
-        fill: #fff !important;
-
-        @media (prefers-color-scheme: dark) {
-          fill: #000 !important;
-        }
-      }
-    }
+  @include dark {
+    --primary: #fff;
+    --primary-hover-background: #fff;
+    --primary-inverse: #000;
   }
 }

@@ -1,8 +1,7 @@
 import { FaUser } from "react-icons/fa6";
 import { NavLink } from "react-router";
 
-import useSignOut from "../../hooks/useSignOut";
-
+import useSignOut from "#hooks/useSignOut";
 import classes from "./index.module.scss";
 
 export default function Header() {
